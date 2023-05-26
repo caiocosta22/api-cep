@@ -1,13 +1,19 @@
 import ApiNodeCorreios from 'node-correios';
 const correios = new ApiNodeCorreios();
+/*
+function Consulta(request, response){
+    const parametro = request.body;
+    response.json(parametro)
+}*/
+
 
 function Consulta(request, response){
     
     const {cep} = request.body;
-        correios.consultaCEP({ cep:request.body.cep})
+        correios.consultaCEP({ cep })
         .then(result =>
             {
-                return response.json(result)
+                return response.status(200).json(result)
         }).catch(error => {
 
             
