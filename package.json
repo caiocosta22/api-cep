@@ -2,11 +2,12 @@
   "name": "fontes",
   "version": "1.0.0",
   "description": "api node cep",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
+  "type": "module",
   "author": "Caio Costa",
   "license": "ISC",
   "dependencies": {
