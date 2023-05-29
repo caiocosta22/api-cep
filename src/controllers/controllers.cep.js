@@ -1,46 +1,31 @@
 import ApiNodeCorreios from 'node-correios';
 const correios = new ApiNodeCorreios();
-/*
-function Consulta(request, response){
-    const parametro = request.body;
-    response.json(parametro)
-}*/
-
+import modelCep from '../models/model.cep.js';
 
 function Consulta(request, response){
     
     const {cep} = request.body;
         correios.consultaCEP({ cep })
-        .then(result =>
-            {
-                return response.status(200).json(result)
+        .then(result => {
+                return response.status(200).json(result);
         }).catch(error => {
-
-            
+                return response.status(404).json(error);
             });
 };
-/*function Consulta(){
-        const correios = new ApiNodeCorreios();
-        correios.consultaCEP({ cep: "60710705" }).then(result =>
-            {
-                console.log(result);
-        }).catch(error => {
-                console.log(error);
-            });
-    };*/
 
-export default {Consulta};
-/*routeCep.get('/', (request, response) => {
-    const { cep } = request.body
-   
-      correios.consultaCEP({ cep }).then(result => {
-        
-          return response.json(result)
-  
-      }).catch(error => {
-    
-        return response.json(error)
-    });
-  });*/
+function Inserir(request, response){
+
+    modelCep.Inserir(request.body, function(err, result){
+        if(err){
+            result.status(500).send(err)
+        } else {
+            result.status(201).send(console.log("Cep inserido com sucesso"))
+        }
+    })
+}
+
+
+export default {Consulta, Inserir}
+
 
   

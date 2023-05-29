@@ -1,27 +1,27 @@
 import sql from 'mssql';
 
 const sqlConfig = {
-  user: 'sa',
+  user: 'caio',
   password: '123456',
   database: 'CEP_API',
-  server: 'DESKTOP-H16KU3U\\SQLEXPRESS',
+  server: 'localhost',
   pool: {
     max: 10,
     min: 0,
     idleTimeoutMillis: 30000
   },
   options: {
-    encrypt: true, // for azure
-    trustServerCertificate: true // change to true for local dev  / self-signed certs
+    encrypt: false, // for azure
   }
 };
 
-await sql.connect(sqlConfig),function(err){
+await sql.connect(sqlConfig,(err)=>{
     if (err){
-        console.log("Deu erro")
+        console.log("Falha na conexão com o banco de dados")
     }
     else{
-        console.log("Deu certo")
+        console.log("Conexão com banco de dados sucedida!")
     }
-};
+});
     
+export default sqlConfig
