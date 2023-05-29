@@ -11,10 +11,10 @@ const sqlConfig = {
     idleTimeoutMillis: 30000
   },
   options: {
-    encrypt: false, // for azure
+    encrypt: false // for azure
   }
 };
-
+/*
 await sql.connect(sqlConfig,(err)=>{
     if (err){
         console.log("Falha na conexão com o banco de dados")
@@ -22,6 +22,6 @@ await sql.connect(sqlConfig,(err)=>{
     else{
         console.log("Conexão com banco de dados sucedida!")
     }
-});
+});*/
     
 export default sqlConfig
