@@ -14,6 +14,8 @@ const sqlConfig = {
     encrypt: false // for azure
   }
 };
+
+//Comando comentado para testar a conexao com o banco de dados
 /*
 await sql.connect(sqlConfig,(err)=>{
     if (err){
@@ -23,5 +25,4 @@ await sql.connect(sqlConfig,(err)=>{
         console.log("Conexão com banco de dados sucedida!")
     }
 });*/
-    
 export default sqlConfig

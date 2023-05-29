@@ -4,10 +4,9 @@ import sqlConfig from "../config/dbconfig.js";
 import sql from "mssql"
 import modelCep from '../models/model.cep.js';
 
+//Consulta na API dos correios retornando o endereco a partir do CEP.
 const correios = new ApiNodeCorreios();
-
 function Consulta(request, response){
-    
     const {cep} = request.body;
         correios.consultaCEP({ cep })
         .then(result => {
@@ -17,17 +16,19 @@ function Consulta(request, response){
         });
 };
 
-function Inserir(request, result){
-
+//Funcao para inserir manualmente um JSON no banco de dados com o endereco completo.
+function Inserir(request, response) {
     modelCep.Inserir(request.body)
-    .then(result =>{
-            return result.status(201).json(result);
-    }).catch(error => {
-            return result.status(404).json(error);
-    });
-} 
+      .then(result => {
+        return response.status(201).json(result);
+      })
+      .catch(error => {
+        return response.status(404).json(error);
+      });
+  }
 
-function getDB (request, result) {
+//Funcao para consultar o banco de dados e trazer todos os CEPS inseridos.
+function checar (request, result) {
     return sql.connect(sqlConfig).then(() => {
         const request = new sql.Request();
         request.query('SELECT * FROM dbo.CONSULTA_CEP').then((registro) => {
@@ -43,8 +44,8 @@ function getDB (request, result) {
     })
 };
 
-
-async function checkAndInsert(request, response){
+//Funcao assincrona que espera fazer a consulta na API dos correios para prosseguir.
+async function checarinserir(request, response){
     const { cep, desejo } = request.body;
     let finalJson = {};
     await correios.consultaCEP({ cep }).then(result => {
@@ -59,7 +60,7 @@ async function checkAndInsert(request, response){
         console.log('Erro na api do correios')
         return response.status(404).json(error);
     });
-
+//Comeco da insercao, apos voce informar o parametro desejo como 'Sim' no body da requisicao
     if(desejo) {
         sql.connect(sqlConfig).then(() => {
             const request = new sql.Request();
@@ -72,7 +73,7 @@ async function checkAndInsert(request, response){
     
             request.query(insertQuery).then((insert) => {
               console.log(dados)
-              return response.status(201).json({ message: 'Insert realizado com sucesso!', dadosInseridos: {dados } });
+              return response.status(201).json({ message: 'Insert realizado com sucesso!', dadosInseridos: {dados} });
     
             }).catch((err) => {
     
@@ -94,6 +95,6 @@ async function checkAndInsert(request, response){
 export default {
     Consulta, 
     Inserir, 
-    getDB,
-    checkAndInsert
+    checar,
+    checarinserir
 }
