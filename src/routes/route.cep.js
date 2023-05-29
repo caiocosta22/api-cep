@@ -2,6 +2,7 @@ import controllersCep from '../controllers/controllers.cep.js';
 import { Router } from 'express';
 const routeCep = Router();
 
-routeCep.post('/consulta/', controllersCep.Consulta);
+routeCep.get('/consulta/', controllersCep.Consulta);
+routeCep.post('/inserir/', controllersCep.Inserir);
 
-export default routeCep;
+export default routeCep
